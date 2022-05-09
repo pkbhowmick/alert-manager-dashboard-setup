@@ -1,0 +1,7 @@
+alertmanager:
+  servers:
+    - name: am1
+      uri: http://prometheus-kube-prometheus-alertmanager.monitoring.svc:9093/
+    - name: am2
+      uri: http://prom-stand-by-kube-prometh-alertmanager.monitoring.svc:9093/
+      
