@@ -161,15 +161,16 @@ rulesVolumeName: "rules"
 
 # additional rule configurations e.g. (http://elastalert2.readthedocs.io/en/latest/)
 rules:
-  example_es_rule.yaml: |-
+  example_es_rule_frequency.yaml: |-
     ---
     es_host: es-quickstart.demo.svc
     es_port: 9200
     name: Example rule
     index: my-index-000001
-    type: any
+    type: frequency
     timestamp_field: "@timestamp"
     timestamp_type: "iso"
+    num_events: 1
     timeframe:
       minutes: 1
     filter:
@@ -182,13 +183,14 @@ rules:
     - "http://prometheus-kube-prometheus-alertmanager.monitoring.svc:9093"
     alertmanager_alertname: "Title"
     alertmanager_annotations:
-      severity: "error"
+      runbook_url: https://runbooks.prometheus-operator.dev/runbooks/general/targetdown
     alertmanager_labels:
       source: "elastalert"
+      severity: "warning"
     alertmanager_fields:
       msg: "message"
       log: "@log_name"
-  example_es_rule_flatline.yaml: |-
+  example_es_rule_flatline: |-
     ---
     es_host: es-quickstart.demo.svc
     es_port: 9200
@@ -210,9 +212,54 @@ rules:
     - "http://prometheus-kube-prometheus-alertmanager.monitoring.svc:9093"
     alertmanager_alertname: "Title test"
     alertmanager_annotations:
-      severity: "error"
+      runbook_url: https://runbooks.prometheus-operator.dev/runbooks/general/targetdown
     alertmanager_labels:
       source: "elastalert"
+      severity: "critical"
+    alertmanager_fields:
+      msg: "message"
+      log: "@log_name"
+  example_es_rule_any: |-
+    ---
+    es_host: es-quickstart.demo.svc
+    es_port: 9200
+    name: Example rule any
+    index: my-index-000001
+    type: any
+    alert:
+    - "alertmanager"
+    alertmanager_hosts:
+    - "http://prometheus-kube-prometheus-alertmanager.monitoring.svc:9093"
+    alertmanager_alertname: "Title any"
+    alertmanager_annotations:
+      runbook_url: https://runbooks.prometheus-operator.dev/runbooks/general/targetdown
+    alertmanager_labels:
+      source: "elastalert"
+      severity: "warning"
+    alertmanager_fields:
+      msg: "message"
+      log: "@log_name"
+  example_es_rule_blacklist: |-
+    ---
+    es_host: es-quickstart.demo.svc
+    es_port: 9200
+    name: Example rule blacklist
+    index: my-index-000001
+    type: blacklist
+    compare_key:
+    - id
+    blacklist:
+    - kimchy
+    alert:
+    - "alertmanager"
+    alertmanager_hosts:
+    - "http://prometheus-kube-prometheus-alertmanager.monitoring.svc:9093"
+    alertmanager_alertname: "Blacklist"
+    alertmanager_annotations:
+      runbook_url: https://runbooks.prometheus-operator.dev/runbooks/general/targetdown
+    alertmanager_labels:
+      source: "elastalert"
+      severity: "warning"
     alertmanager_fields:
       msg: "message"
       log: "@log_name"

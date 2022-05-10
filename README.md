@@ -53,9 +53,10 @@ rules:
     - "http://prometheus-kube-prometheus-alertmanager.monitoring.svc:9093"
     alertmanager_alertname: "Title test"
     alertmanager_annotations:
-      severity: "error"
+      runbook_url: https://runbooks.prometheus-operator.dev/runbooks/general/targetdown
     alertmanager_labels:
       source: "elastalert"
+      severity: "critical"
     alertmanager_fields:
       msg: "message"
       log: "@log_name"
