@@ -8,13 +8,22 @@ docker run -p 8080:8080 --net=host -e ALERTMANAGER_URI=http://localhost:9093 ghc
 
 ### To Run in Kubernetes
 
+Change the `--alertmanager.uri` flag with your alertmanager address before applying the manifest file.
+
 ```bash
 kubectl apply -f mainfest.yaml
 ```
 
+To run Alert Dashboard in Kubernetes using ConfigMap to setup multiple AlertManager server(cluster):
+
+```bash
+kubectl apply -f deploy-with-config-file.yaml
+```
+
 ## Elasticsearch Alert for logs
 
-```
+```bash
+helm repo add elastalert2 https://jertel.github.io/elastalert2/
 helm install elastalert2 elastalert2/elastalert2 -n demo --values=values.yaml
 ```
 
@@ -51,3 +60,9 @@ rules:
       msg: "message"
       log: "@log_name"
 ```
+
+
+## Resources
+
+- https://github.com/prymitive/karma
+- https://github.com/jertel/elastalert2
